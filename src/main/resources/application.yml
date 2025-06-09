@@ -1,3 +1,36 @@
 server.port: 8080
+
 spring:
-  application.name: ems-post-service
+  application:
+    name: ems-post-service
+  datasource:
+    username: sa
+    url: jdbc:h2:file:~/algaposts-postservice-db;CASE_INSENSITIVE_IDENTIFIERS=TRUE;
+    driverClassName: org.h2.Driver
+    password: '123'
+  h2:
+    console:
+      enabled: 'true'
+      settings.web-allow-others: 'true'
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: update
+    # show-sql: 'true' substituido por false na 12.16
+    show-sql: false
+
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: rabbitmq
+    password: rabbitmq
+    listener: #aula 12.16
+      simple: #aula 12.16
+        prefetch: 4 #aula 12.16
+        retry: #aula 13.02
+          enabled: true #aula 13.02
+          initial-interval: 10s #aula 13.02
+          max-interval: 20s #aula 13.02
+          multiplier: 2 #aula 13.02
+          max-attempts: 3 #aula 13.02
+
