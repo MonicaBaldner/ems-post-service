@@ -1,11 +1,13 @@
 package com.algaworks.algaposts.ems_post_service.api.exception;
 
+import com.algaworks.algaposts.ems_post_service.domain.exception.PostBodyTooLongException;
 import com.algaworks.algaposts.ems_post_service.domain.exception.PostNotFoundException;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ProblemDetail;
-import org.springframework.http.ResponseEntity;
+import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.http.*;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import java.net.URI;
@@ -24,12 +26,30 @@ public class ApiExceptionHadler extends ResponseEntityExceptionHandler {
         return problemDetail;
     }
 
+    @ExceptionHandler(PostBodyTooLongException.class)
+     public ProblemDetail handle(PostBodyTooLongException e){
+        ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.UNPROCESSABLE_ENTITY);
+
+        problemDetail.setTitle("Body too long");
+        problemDetail.setDetail(e.getMessage());
+        problemDetail.setType(URI.create("/errors/unprocessable-entity"));
+
+        return problemDetail;
+     }
 
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<String> handleGenericException(Exception ex) {
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro interno no servidor.");
+    public ProblemDetail handleGenericException(Exception ex, HttpServletRequest request) {
+        ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.INTERNAL_SERVER_ERROR);
+
+        problemDetail.setTitle("Erro interno no servidor");
+        problemDetail.setDetail("Ocorreu um erro inesperado. Tente novamente mais tarde.");
+        problemDetail.setType(URI.create("/errors/internal-server-error"));
+        problemDetail.setInstance(URI.create(request.getRequestURI()));
+
+        return problemDetail;
     }
+
 
 
 

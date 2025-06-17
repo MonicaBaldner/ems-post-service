@@ -18,7 +18,7 @@ import java.util.UUID;
 public class Post {
     @Id
     @Builder.Default
-    private UUID id = UUID.randomUUID();
+    private UUID postId = UUID.randomUUID();
     private String title;
     private String body;
     private String author;

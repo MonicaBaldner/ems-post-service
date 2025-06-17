@@ -12,6 +12,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @Builder
 public class PostSummaryOutput {
+
     private UUID postId;
     private String title;
     private String summary;
