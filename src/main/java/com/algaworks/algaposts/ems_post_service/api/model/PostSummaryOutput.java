@@ -5,15 +5,13 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.UUID;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 public class PostSummaryOutput {
 
-    private UUID postId;
+    private String postId;
     private String title;
     private String summary;
     private String author;

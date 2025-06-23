@@ -25,6 +25,7 @@ public class PostController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public PostOutput createPost(@Valid @RequestBody PostInput postInput){
+
         return postService.createPost(postInput);
     }
 
