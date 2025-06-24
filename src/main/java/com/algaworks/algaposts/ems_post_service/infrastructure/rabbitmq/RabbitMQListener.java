@@ -33,7 +33,8 @@ public class RabbitMQListener {
         Integer wordCount = postResult.getWordCount();
         BigDecimal calculatedValue = postResult.getCalculatedValue();
         log.info("Message Received: Id {} WordCount {} CalculatedValue {}", id, wordCount, calculatedValue);
-        Thread.sleep(Duration.ofSeconds(15));
+
+        //Thread.sleep(Duration.ofSeconds(15));
 
         postService.upddatePost(postResult);
     }

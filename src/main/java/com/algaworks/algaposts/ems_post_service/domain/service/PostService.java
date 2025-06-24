@@ -13,6 +13,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Optional;
 import java.util.UUID;
@@ -68,6 +69,13 @@ public class PostService {
     @Transactional
     public void upddatePost(PostResult postResult){
         log.info("Está no updatePost de PostService com o resultado monetizado");
+
+        //para testar dql
+        /*postResult.setCalculatedValue(BigDecimal.ZERO);
+        if (postResult.getCalculatedValue().equals(BigDecimal.ZERO)) {
+            throw new RuntimeException("Simulando erro no serviço");
+        }*/
+        //fim para testar dql
 
         UUID postId = UUID.fromString(postResult.getPostId());
 

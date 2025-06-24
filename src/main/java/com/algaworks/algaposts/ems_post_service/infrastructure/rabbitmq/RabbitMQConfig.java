@@ -8,15 +8,17 @@ import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Configuration
 public class RabbitMQConfig {
 
-    public static final String QUEUE_RESULT = "post-service.post-processing-result.v1.q.";
-    public static final String FANOUT_EXCHANGE_NAME_POST = "post-service.post-created.v1.e";
-
-  //  public static final String QUEUE_POST = "text-processor-service.post-processing.v1.q.";
+    public static final String QUEUE_RESULT = "post-service.post-processing-result.v1.q";
+    public static final String DEAD_LETTER_QUEUE_RESULT = "post-service.post-processing-result.v1.dql";
     public static final String FANOUT_EXCHANGE_NAME_RESULT = "text-processor-service.text-calculated.v1.e";
 
+    public static final String FANOUT_EXCHANGE_NAME_POST = "post-service.post-created.v1.e";
 
     @Bean
     public Jackson2JsonMessageConverter jackson2JsonMessageConverter(ObjectMapper objectMapper) {
@@ -35,17 +37,6 @@ public class RabbitMQConfig {
                 .build();
     }
 
-   /* @Bean
-    public Queue queue_post() {
-        return QueueBuilder.durable(QUEUE_POST).build();
-    }*/
-
-   /* @Bean
-    public Binding binding() {
-        return BindingBuilder.bind(queue_post()).to(exchange_post());
-    }*/
-
-  //  @Bean
     public FanoutExchange exchange_result() {
         return ExchangeBuilder
                 .fanoutExchange(FANOUT_EXCHANGE_NAME_RESULT)
@@ -53,8 +44,17 @@ public class RabbitMQConfig {
     }
 
     @Bean
+    public Queue deadLetterQueueResult() {
+        return QueueBuilder.durable(DEAD_LETTER_QUEUE_RESULT).build();
+    }
+
+    @Bean
     public Queue queue_result() {
-        return QueueBuilder.durable(QUEUE_RESULT).build();
+        Map<String, Object> args = new HashMap<>();
+        args.put("x-dead-letter-exchange", "");
+        args.put("x-dead-letter-routing-key", DEAD_LETTER_QUEUE_RESULT);
+
+        return QueueBuilder.durable(QUEUE_RESULT).withArguments(args).build();
     }
 
     @Bean
