@@ -39,28 +39,4 @@ public class ApiExceptionHadler extends ResponseEntityExceptionHandler {
      }
 
 
-    @ExceptionHandler(Exception.class)
-    public ProblemDetail handleGenericException(Exception ex, HttpServletRequest request) {
-        ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.INTERNAL_SERVER_ERROR);
-
-        problemDetail.setTitle("Erro interno no servidor");
-        problemDetail.setDetail("Ocorreu um erro inesperado. Tente novamente mais tarde.");
-        problemDetail.setType(URI.create("/errors/internal-server-error"));
-        problemDetail.setInstance(URI.create(request.getRequestURI()));
-
-        return problemDetail;
-    }
-
-    public ProblemDetail handle(IOException e) {
-        ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.GATEWAY_TIMEOUT);
-
-        problemDetail.setTitle("Gateway timeout");
-        problemDetail.setDetail(e.getMessage());
-        problemDetail.setType(URI.create("/errors/gateway-timeout"));
-
-        return problemDetail;
-    }
-
-
-
 }
