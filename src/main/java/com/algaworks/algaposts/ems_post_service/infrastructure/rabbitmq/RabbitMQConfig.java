@@ -15,7 +15,7 @@ import java.util.Map;
 public class RabbitMQConfig {
 
     public static final String QUEUE_RESULT = "post-service.post-processing-result.v1.q";
-    public static final String DEAD_LETTER_QUEUE_RESULT = "post-service.post-processing-result.v1.dql";
+    public static final String DEAD_LETTER_QUEUE_RESULT = "post-service.post-processing-result.v1.dlq";
     public static final String FANOUT_EXCHANGE_NAME_RESULT = "text-processor-service.text-calculated.v1.e";
 
     public static final String FANOUT_EXCHANGE_NAME_POST = "post-service.post-created.v1.e";
@@ -37,6 +37,7 @@ public class RabbitMQConfig {
                 .build();
     }
 
+    @Bean
     public FanoutExchange exchange_result() {
         return ExchangeBuilder
                 .fanoutExchange(FANOUT_EXCHANGE_NAME_RESULT)

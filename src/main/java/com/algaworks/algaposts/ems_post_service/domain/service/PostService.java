@@ -71,7 +71,7 @@ public class PostService {
         log.info("Está no updatePost de PostService com o resultado monetizado");
 
         //para testar dql
-        /*postResult.setCalculatedValue(BigDecimal.ZERO);
+       /* postResult.setCalculatedValue(BigDecimal.ZERO);
         if (postResult.getCalculatedValue().equals(BigDecimal.ZERO)) {
             throw new RuntimeException("Simulando erro no serviço");
         }*/
