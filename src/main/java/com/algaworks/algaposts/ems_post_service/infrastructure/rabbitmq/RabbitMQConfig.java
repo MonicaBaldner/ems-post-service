@@ -37,7 +37,7 @@ public class RabbitMQConfig {
                 .build();
     }
 
-    @Bean
+    //@Bean
     public FanoutExchange exchange_result() {
         return ExchangeBuilder
                 .fanoutExchange(FANOUT_EXCHANGE_NAME_RESULT)

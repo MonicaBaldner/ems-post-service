@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import java.io.IOException;
 import java.net.URI;
 
 @RestControllerAdvice
@@ -50,6 +51,15 @@ public class ApiExceptionHadler extends ResponseEntityExceptionHandler {
         return problemDetail;
     }
 
+    public ProblemDetail handle(IOException e) {
+        ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.GATEWAY_TIMEOUT);
+
+        problemDetail.setTitle("Gateway timeout");
+        problemDetail.setDetail(e.getMessage());
+        problemDetail.setType(URI.create("/errors/gateway-timeout"));
+
+        return problemDetail;
+    }
 
 
 
